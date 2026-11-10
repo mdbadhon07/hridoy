@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#14532d">
+<title>জয় কুমার স্টোর</title>
+<style>
+:root{--green:#14532d;--light:#f3f7f3;--line:#dce6dd;--ink:#17251a;--muted:#607064}
+*{box-sizing:border-box}body{margin:0;background:var(--light);color:var(--ink);font-family:system-ui,"Noto Sans Bengali",sans-serif}
+header{background:linear-gradient(135deg,#14532d,#207348);color:white;padding:22px 16px;text-align:center}
+header h1{margin:0;font-size:25px}header p{margin:6px 0 0;color:#d9f4df;font-size:13px}
+main{max-width:1050px;margin:auto;padding:14px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.stat,.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:14px}.stat small{color:var(--muted)}.stat strong{display:block;font-size:22px;margin-top:5px}
+nav{display:flex;gap:7px;overflow:auto;margin:12px 0}button,.tab{border:0;border-radius:10px;padding:11px 14px;background:#e2ece4;color:#17472b;font-weight:650;cursor:pointer;white-space:nowrap}
+.tab.active,button.primary{background:var(--green);color:white}.tabview{display:none}.tabview.active{display:block}
+h2{font-size:19px;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+label{display:block;font-size:13px;color:var(--muted);margin:8px 0 4px}input,select{width:100%;padding:12px;border:1px solid #cbd8cd;border-radius:9px;font:inherit;background:white;color:var(--ink)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.muted{color:var(--muted);font-size:13px}.list{margin-top:12px}.item{padding:10px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}.item:last-child{border:0}.pill{font-size:12px;background:#fff1c9;color:#785500;padding:3px 8px;border-radius:20px}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:9px 5px;border-bottom:1px solid var(--line)}
+.notice{background:#fff8df;border:1px solid #f0dfa2;padding:10px;border-radius:10px;font-size:13px;margin-top:12px}
+@media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}header h1{font-size:22px}main{padding:10px}}
+</style></head>
+<body>
+<header><h1>✦ জয় কুমার স্টোর ✦</h1><p>আপনার বিশ্বস্ত কেনাকাটার ঠিকানা</p><p>সততা • বিশ্বাস • সেবার অঙ্গীকার</p></header>
+<main>
+<div class="stats">
+ <div class="stat"><small>মোট বিক্রি</small><strong id="totalSales">৳০</strong></div>
+ <div class="stat"><small>সর্বমোট বাকি</small><strong id="totalDue">৳০</strong></div>
+ <div class="stat"><small>মোট কাস্টমার</small><strong id="customerCount">০</strong></div>
+</div>
+<nav>
+ <button class="tab active" data-tab="home">হোম</button><button class="tab" data-tab="customers">কাস্টমার</button><button class="tab" data-tab="sales">বিক্রয় / টাকা জমা</button><button class="tab" data-tab="reports">রিপোর্ট ও বাকি</button>
+</nav>
+<section id="home" class="tabview active panel"><h2>দোকানের হিসাব</h2><p>কাস্টমার যোগ করুন, বিক্রয়ের মোট টাকা ও জমা লিখুন। আগের বাকি একই কাস্টমারের নামে স্বয়ংক্রিয়ভাবে যোগ হবে।</p><div id="recent" class="list muted">এখনো কোনো লেনদেন নেই।</div><div class="notice">এই সংস্করণে তথ্য এই ব্রাউজারের ডিভাইসেই সেভ থাকে। ফোন ও ল্যাপটপে একই ডেটা স্বয়ংক্রিয়ভাবে সিঙ্ক হয় না। নিয়মিত রিপোর্ট থেকে ব্যাকআপ রাখুন।</div></section>
+<section id="customers" class="tabview panel"><h2>কাস্টমার যোগ ও সার্চ</h2><div class="grid"><div><label>কাস্টমারের নাম</label><input id="cname" placeholder="নাম লিখুন"></div><div><label>মোবাইল নম্বর</label><input id="cphone" inputmode="tel" placeholder="01XXXXXXXXX"></div></div><div class="actions"><button class="primary" id="saveCustomer">কাস্টমার সেভ</button><button id="pickContact">ফোনের Contacts থেকে নিন</button></div><label>নাম বা নম্বর দিয়ে খুঁজুন</label><input id="customerSearch" placeholder="সার্চ করুন..."><div id="customerList" class="list"></div><p class="muted">Contacts বাটন Android/সমর্থিত ব্রাউজারে contact picker খুলতে পারে। সব ব্রাউজারে সমর্থিত নয়।</p></section>
+<section id="sales" class="tabview panel"><h2>নতুন বিক্রয় / আগের বাকি জমা</h2><label>কাস্টমার</label><input id="sCustomer" list="customerOptions" placeholder="কাস্টমারের নাম লিখুন বা নির্বাচন করুন"><datalist id="customerOptions"></datalist><p id="customerBalance" class="notice">কাস্টমার নির্বাচন করলে আগের বাকি দেখা যাবে।</p><label>বিবরণ (ঐচ্ছিক)</label><input id="sNote" placeholder="যেমন: চাল, ডাল অথবা আগের বাকি জমা"><div class="grid"><div><label>নতুন বিক্রির মোট টাকা</label><input id="sTotal" type="number" min="0" step="0.01" placeholder="0"></div><div><label>আজ জমা টাকা</label><input id="sPaid" type="number" min="0" step="0.01" value="0"></div><div><label>লেনদেনের তারিখ</label><input id="sDate" type="date"></div><div><label>লেনদেনের সময়</label><input id="sTime" type="time"></div></div><p id="salePreview" class="muted">নতুন বাকি ও সর্বমোট বাকি এখানে দেখা যাবে।</p><div class="actions"><button class="primary" id="saveSale">হিসাব সেভ ও রসিদ তৈরি</button></div><div id="bill" class="notice" hidden></div><p class="muted">শুধু আগের বাকি থেকে টাকা জমা নিলে নতুন বিক্রির ঘরে ০ লিখে আজ জমা টাকা লিখুন।</p></section>
+<section id="reports" class="tabview panel"><h2>কাস্টমারভিত্তিক বাকি রিপোর্ট</h2><label>কাস্টমারের নাম বা নম্বর দিয়ে খুঁজুন</label><input id="reportSearch" placeholder="সার্চ করুন..."><div id="reportTable" class="list"></div><h2 style="margin-top:18px">সব লেনদেন</h2><div id="transactions" class="list"></div><div class="actions"><button id="exportData">ডেটা ব্যাকআপ ডাউনলোড</button><button id="importButton">ব্যাকআপ ফিরিয়ে আনুন</button><input id="importFile" type="file" accept="application/json" hidden></div><p class="muted">নিয়মিত ব্যাকআপ ডাউনলোড করে নিরাপদে রাখুন।</p></section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let data={customers:[],sales:[]};
+try{const old=JSON.parse(localStorage.getItem('joyStoreData'))||{};data={customers:Array.isArray(old.customers)?old.customers:[],sales:Array.isArray(old.sales)?old.sales:[]};}catch(e){}
+const money=n=>'৳'+Number(n||0).toLocaleString('bn-BD',{maximumFractionDigits:2});
+const save=()=>{localStorage.setItem('joyStoreData',JSON.stringify(data));render()};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').trim().toLocaleLowerCase('bn');
+function customerSales(name){return data.sales.filter(s=>norm(s.customer)===norm(name))}
+function balance(name){return customerSales(name).reduce((sum,s)=>sum+(Number(s.total)||0)-(Number(s.paid)||0),0)}
+function customerPhone(name){return data.customers.find(c=>norm(c.name)===norm(name))?.phone||''}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab,.tabview').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active');if(b.dataset.tab==='sales')updatePreview();if(b.dataset.tab==='reports')renderReports()});
+$('saveCustomer').onclick=()=>{let name=$('cname').value.trim(),phone=$('cphone').value.trim();if(!name||!phone)return alert('নাম ও নম্বর দিন');let old=data.customers.find(c=>c.phone===phone);if(old)old.name=name;else data.customers.push({name,phone});$('cname').value='';$('cphone').value='';save()};
+$('customerSearch').oninput=renderCustomers;
+$('pickContact').onclick=async()=>{try{if(!('contacts' in navigator)||!navigator.contacts){alert('এই ব্রাউজারে Contacts Picker নেই। Android-এর সমর্থিত ব্রাউজারে চেষ্টা করুন।');return}let c=await navigator.contacts.select(['name','tel'],{multiple:false});if(c[0]){$('cname').value=c[0].name?.[0]||'';$('cphone').value=c[0].tel?.[0]||''}}catch(e){alert('কন্টাক্ট নির্বাচন করা যায়নি।')}};
+function setDefaultDateTime(){const now=new Date();const local=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString();$('sDate').value=local.slice(0,10);$('sTime').value=local.slice(11,16)}setDefaultDateTime();
+$('sCustomer').addEventListener('input',updatePreview);$('sTotal').oninput=updatePreview;$('sPaid').oninput=updatePreview;
+function updatePreview(){let name=$('sCustomer').value.trim(),old=balance(name),total=+$('sTotal').value||0,paid=+$('sPaid').value||0,newDue=total-paid;$('customerBalance').textContent=name?`আগের বাকি: ${money(old)}`:'কাস্টমার নির্বাচন করলে আগের বাকি দেখা যাবে।';$('salePreview').textContent=`নতুন বিক্রি: ${money(total)} | আজ জমা: ${money(paid)} | এই লেনদেনের বাকি: ${money(newDue)} | সব মিলিয়ে বাকি: ${money(old+newDue)}`;}
+$('saveSale').onclick=()=>{let customer=$('sCustomer').value.trim(),total=+$('sTotal').value,paid=+$('sPaid').value,note=$('sNote').value.trim();if(!customer)return alert('কাস্টমারের নাম দিন');if(!Number.isFinite(total)||!Number.isFinite(paid)||total<0||paid<0||total+paid===0)return alert('বিক্রির টাকা বা জমা টাকা লিখুন');if(paid>total+balance(customer))return alert('জমা টাকা আগের বাকি ও নতুন বিক্রির মোট টাকার বেশি হতে পারবে না');let old=balance(customer),due=total-paid;if(!data.customers.some(c=>norm(c.name)===norm(customer)))data.customers.push({name:customer,phone:''});let dateValue=$('sDate').value,timeValue=$('sTime').value;if(!dateValue||!timeValue)return alert('লেনদেনের তারিখ ও সময় দিন');let date=new Date(dateValue+'T'+timeValue).toLocaleString('bn-BD');let sale={id:Date.now(),customer,note,total,paid,due,date,dateValue,timeValue};data.sales.unshift(sale);save();let current=balance(customer);$('bill').hidden=false;$('bill').innerHTML=`<b>জয় কুমার স্টোর — হিসাবের রসিদ</b><br>কাস্টমার: ${esc(customer)}<br>${note?'বিবরণ: '+esc(note)+'<br>':''}আগের বাকি: ${money(old)}<br>নতুন বিক্রি: ${money(total)}<br>আজ জমা: ${money(paid)}<br>এই লেনদেনের বাকি: ${money(due)}<br><b>বর্তমান সর্বমোট বাকি: ${money(current)}</b><br><small>${esc(sale.date)}</small><div class="actions"><button onclick="shareBill(${sale.id},'sms')">SMS</button><button onclick="shareBill(${sale.id},'wa')">WhatsApp</button></div>`;$('sTotal').value='';$('sPaid').value='0';$('sNote').value='';updatePreview();};
+window.shareBill=(id,kind)=>{let s=data.sales.find(x=>x.id===id);if(!s)return;let txDate=s.dateValue||'';let txTime=s.timeValue||'';let dateLabel=txDate?new Date(txDate+'T00:00:00').toLocaleDateString('bn-BD'):(s.date||'তারিখ নেই');let timeLabel=txTime?new Date('2000-01-01T'+txTime).toLocaleTimeString('bn-BD',{hour:'numeric',minute:'2-digit'}):'সময় নেই';let msg=`✦ জয় কুমার স্টোর ✦\nকাস্টমার: ${s.customer}\nলেনদেনের তারিখ: ${dateLabel}\nলেনদেনের সময়: ${timeLabel}\nবিবরণ: ${s.note||'—'}\nবিক্রি: ${money(s.total)}\nজমা: ${money(s.paid)}\nএই লেনদেনের বাকি: ${money(s.due)}\nবর্তমান মোট বাকি: ${money(balance(s.customer))}\nআপনাদের সেবায় আমরা সর্বদা নিয়োজিত।\nধন্যবাদ!`;let rawPhone=customerPhone(s.customer);let digits=String(rawPhone||'').replace(/[^0-9]/g,'');if(!digits){alert('এই কাস্টমারের মোবাইল নম্বর সেভ করা নেই। কাস্টমার তালিকা থেকে নম্বর যোগ করুন।');return;}let phone=digits.startsWith('880')?'+'+digits:(digits.startsWith('0')?'+88'+digits:'+'+digits);if(kind==='wa'){let waPhone=phone.replace(/\D/g,'');window.location.href='https://wa.me/'+waPhone+'?text='+encodeURIComponent(msg);}else{let smsUri='sms:'+phone+'?body='+encodeURIComponent(msg);window.location.href=smsUri;}};
+function renderCustomers(){let q=norm($('customerSearch').value);let a=data.customers.filter(c=>norm(c.name+' '+c.phone).includes(q));$('customerList').innerHTML=a.length?a.map(c=>`<div class="item"><span><b>${esc(c.name)}</b><br><small>${esc(c.phone)}</small><br><small>বর্তমান বাকি: ${money(balance(c.name))}</small></span><span class="actions"><button onclick="fillCustomer('${esc(c.name)}')">বিক্রয়ে নিন</button><button onclick="deleteCustomer('${esc(c.name)}')">কাস্টমার ডিলিট</button></span></div>`).join(''):'<p class="muted">কোনো কাস্টমার নেই।</p>'}
+window.fillCustomer=n=>{$('sCustomer').value=n;document.querySelector('[data-tab="sales"]').click()};
+function renderReports(){let q=norm($('reportSearch').value);let names=[...new Set([...data.customers.map(c=>c.name),...data.sales.map(s=>s.customer)])].filter(n=>norm(n).includes(q));$('reportTable').innerHTML=names.length?'<table><tr><th>কাস্টমার</th><th>মোট বাকি</th><th>লেনদেন</th></tr>'+names.map(n=>`<tr><td>${esc(n)}</td><td><b>${money(balance(n))}</b></td><td>${customerSales(n).length}</td></tr>`).join('')+'</table>':'<p class="muted">কোনো কাস্টমার পাওয়া যায়নি।</p>';$('transactions').innerHTML=data.sales.length?data.sales.map(s=>`<div class="item"><span><b>${esc(s.customer)}</b><br><small>${esc(s.date)} · ${esc(s.note||'বিক্রয়/জমা')}</small><br><small>বিক্রি ${money(s.total)} · জমা ${money(s.paid)} · এইবারের হিসাব ${money(s.total-s.paid)}</small><br><span class="actions"><button onclick="editSale(${s.id})">বিল সংশোধন</button><button onclick="deleteSale(${s.id})">বিল ডিলিট</button></span></span><b>মোট বাকি ${money(balance(s.customer))}</b></div>`).join(''):'<p class="muted">এখনো কোনো লেনদেন নেই।</p>'}
+$('reportSearch').oninput=renderReports;
+function render(){let total=data.sales.reduce((a,s)=>a+(Number(s.total)||0),0);let names=[...new Set([...data.customers.map(c=>c.name),...data.sales.map(s=>s.customer)])];$('totalSales').textContent=money(total);$('totalDue').textContent=money(names.reduce((a,n)=>a+balance(n),0));$('customerCount').textContent=names.length.toLocaleString('bn-BD');renderCustomers();$('customerOptions').innerHTML=data.customers.map(c=>`<option value="${esc(c.name)}">${esc(c.phone)}</option>`).join('');$('recent').textContent=data.sales.length?`সর্বশেষ লেনদেন: ${data.sales[0].customer} — বর্তমান বাকি ${money(balance(data.sales[0].customer))}`:'এখনো কোনো লেনদেন নেই।';renderReports();updatePreview()}
+
+window.deleteCustomer=name=>{
+  const hasSales=data.sales.some(s=>norm(s.customer)===norm(name));
+  if(hasSales){alert('এই কাস্টমারের নামে বিক্রয়/জমার হিসাব আছে। হিসাবের ইতিহাস ঠিক রাখতে আগে রিপোর্ট থেকে তার বিলগুলো আলাদাভাবে ডিলিট করুন।');return;}
+  if(!confirm(`“${name}” কাস্টমারকে তালিকা থেকে ডিলিট করবেন?`))return;
+  data.customers=data.customers.filter(c=>norm(c.name)!==norm(name));save();
+};
+window.editSale=id=>{
+  const s=data.sales.find(x=>x.id===id);if(!s)return;
+  const totalText=prompt('বিলের নতুন মোট বিক্রির টাকা লিখুন:',String(s.total));if(totalText===null)return;
+  const paidText=prompt('এই লেনদেনে জমা টাকার সঠিক পরিমাণ লিখুন:',String(s.paid));if(paidText===null)return;
+  const noteText=prompt('বিবরণ সংশোধন করুন:',s.note||'');if(noteText===null)return;
+  const dateText=prompt('তারিখ লিখুন (YYYY-MM-DD):',s.dateValue||new Date().toISOString().slice(0,10));if(dateText===null)return;
+  const timeText=prompt('সময় লিখুন (HH:MM):',s.timeValue||'12:00');if(timeText===null)return;
+  const total=Number(totalText),paid=Number(paidText);
+  if(!Number.isFinite(total)||!Number.isFinite(paid)||total<0||paid<0||total+paid===0){alert('সঠিক টাকার পরিমাণ লিখুন।');return;}
+  const otherBalance=data.sales.filter(x=>x.id!==id&&norm(x.customer)===norm(s.customer)).reduce((sum,x)=>sum+(Number(x.total)||0)-(Number(x.paid)||0),0);
+  if(paid>total+otherBalance){alert('এই জমার পরিমাণ দিলে কাস্টমারের মোট বাকি ঋণাত্মক হবে। টাকার পরিমাণ যাচাই করুন।');return;}
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(dateText)||!/^\d{2}:\d{2}$/.test(timeText)){alert('তারিখ বা সময়ের ফরম্যাট ঠিক নয়।');return;}
+  s.total=total;s.paid=paid;s.due=total-paid;s.note=noteText.trim();s.dateValue=dateText;s.timeValue=timeText;s.date=new Date(dateText+'T'+timeText).toLocaleString('bn-BD');save();alert('বিল সংশোধন করা হয়েছে। তারিখ ও সময়সহ হিসাব আপডেট হয়েছে।');
+};
+window.deleteSale=id=>{
+  const s=data.sales.find(x=>x.id===id);if(!s)return;
+  const after=data.sales.filter(x=>x.id!==id&&norm(x.customer)===norm(s.customer)).reduce((sum,x)=>sum+(Number(x.total)||0)-(Number(x.paid)||0),0);
+  if(!confirm(`এই বিলটি ডিলিট করবেন?\n${s.customer} — বিক্রি ${money(s.total)}, জমা ${money(s.paid)}\nডিলিটের পর কাস্টমারের বাকি হবে ${money(after)}।`))return;
+  data.sales=data.sales.filter(x=>x.id!==id);save();alert('বিল ডিলিট হয়েছে এবং বাকি আবার হিসাব করা হয়েছে।');
+};
+
+$('exportData').onclick=()=>{let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='joy-kumar-store-backup.json';a.click();URL.revokeObjectURL(a.href)};
+$('importButton').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{try{let f=e.target.files[0];if(!f)return;let d=JSON.parse(await f.text());if(!Array.isArray(d.customers)||!Array.isArray(d.sales))throw 0;data=d;save();alert('ব্যাকআপ ফিরিয়ে আনা হয়েছে')}catch(e){alert('সঠিক ব্যাকআপ ফাইল নির্বাচন করুন')}};
+render();
+</script></body></html>
